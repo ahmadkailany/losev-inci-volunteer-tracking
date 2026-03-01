@@ -1,0 +1,197 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(STUDENT)
+  name      String
+  tcId      String?  @unique // Encrypted - optional
+  phone     String
+  school    String
+  city      String
+  district  String
+  grade     String?  // For students
+  teacherId String?  // For students - references teacher
+  teacher   User?    @relation("StudentToTeacher", fields: [teacherId], references: [id])
+  students  User[]   @relation("StudentToTeacher")
+  profileImageUrl String?
+  profileImageCloudinaryId String?
+  bio       String?
+  parentConsent Boolean @default(false) // For minors
+  parentEmail String?
+  parentPhone String?
+  dateOfBirth DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  activities Activity[]
+  approvals ActivityApproval[]
+  
+  @@index([email])
+  @@index([school])
+  @@index([city])
+  @@index([role])
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  date        DateTime
+  type        ActivityType
+  hours       Float    @db.Decimal(5, 2)
+  description String?
+  photoUrl    String?
+  photoCloudinaryId String?
+  docUrl      String?
+  docCloudinaryId String?
+  status      Status   @default(PENDING)
+  teacherNote String?
+  approverNote String?
+  approvedBy  String?  // User ID of approver
+  approvedAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  approvals ActivityApproval[]
+  
+  @@index([studentId])
+  @@index([status])
+  @@index([date])
+  @@index([type])
+}
+
+enum ActivityType {
+  SEMINAR
+  BOOTH
+  DONATION
+  FUNDRAISING
+  COMMUNITY_SERVICE
+  MENTORING
+  ENVIRONMENTAL
+  HEALTH_AWARENESS
+  EDUCATION_SUPPORT
+  ANIMAL_WELFARE
+  OTHER
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model ActivityApproval {
+  id          String   @id @default(cuid())
+  activityId  String
+  activity    Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  approverId  String
+  approver    User     @relation(fields: [approverId], references: [id], onDelete: Cascade)
+  status      Status
+  comment     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([activityId, approverId])
+  @@index([activityId])
+  @@index([approverId])
+  @@index([status])
+}
+
+model Certificate {
+  id          String   @id @default(cuid())
+  studentId   String   @unique
+  totalHours  Float    @db.Decimal(8, 2)
+  badgeType   BadgeType
+  downloadCount Int    @default(0)
+  lastDownloadedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum BadgeType {
+  BRONZE     // 25h
+  SILVER     // 50h
+  GOLD       // 100h
+  PLATINUM   // 200h+
+  INCI_FRIENDLY
+  IMPACT_LEADER
+  MOST_ACTIVE
+}
+
+model SchoolStatistic {
+  id          String   @id @default(cuid())
+  school      String   @unique
+  totalStudents Int    @default(0)
+  totalHours  Float    @db.Decimal(12, 2) @default(0)
+  totalActivities Int   @default(0)
+  averageHoursPerStudent Float @db.Decimal(8, 2) @default(0)
+  lastUpdatedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([school])
+}
+
+model CityStatistic {
+  id          String   @id @default(cuid())
+  city        String   @unique
+  totalStudents Int    @default(0)
+  totalHours  Float    @db.Decimal(12, 2) @default(0)
+  totalActivities Int   @default(0)
+  topSchools  String   @db.Text // JSON array
+  lastUpdatedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([city])
+}
+
+model NationalStatistic {
+  id          String   @id @default(cuid())
+  totalStudents Int    @default(0)
+  totalTeachers Int    @default(0)
+  totalHours  Float    @db.Decimal(15, 2) @default(0)
+  totalActivities Int   @default(0)
+  activeCities Int     @default(0)
+  activeSchools Int    @default(0)
+  topStudents String   @db.Text // JSON array
+  topSchools  String   @db.Text // JSON array
+  activityDistribution String @db.Text // JSON object
+  monthlyTrend String   @db.Text // JSON array
+  updatedAt   DateTime @updatedAt
+  
+  @@map("national_statistics")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  entity    String
+  entityId  String?
+  changes   String?  @db.Text
+  ipAddress String?
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@index([entity])
+}
