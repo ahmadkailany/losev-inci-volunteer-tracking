@@ -1,0 +1,44 @@
+{
+  "name": "losev-inci",
+  "version": "1.0.0",
+  "description": "LÖSEV İncİ Volunteer Tracking System - Full Stack Application",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"apps/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:push": "cd apps/backend && npx prisma db push",
+    "db:migrate": "cd apps/backend && npx prisma migrate dev",
+    "db:seed": "cd apps/backend && npx prisma db seed",
+    "db:studio": "cd apps/backend && npx prisma studio",
+    "clean": "turbo clean && rm -rf node_modules",
+    "type-check": "turbo run type-check"
+  },
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@repo/config": "*",
+    "prettier": "^3.3.0",
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0"
+  },
+  "keywords": [
+    "volunteer",
+    "tracking",
+    "youth",
+    "turkey",
+    "social-responsibility",
+    "full-stack"
+  ],
+  "author": "Ahmad Kailany",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24.0.0",
+    "npm": ">=11.0.0"
+  }
+}
