@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@theme {
+  --color-border: 220 13% 91%;
+  --color-input: 220 13% 91%;
+  --color-ring: 217 91% 60%;
+  --color-background: 0 0% 100%;
+  --color-foreground: 220 9% 3%;
+  --color-primary: 217 91% 60%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-secondary: 217 33% 92%;
+  --color-secondary-foreground: 220 9% 3%;
+  --color-destructive: 0 84% 60%;
+  --color-destructive-foreground: 0 0% 100%;
+  --color-muted: 220 15% 92%;
+  --color-muted-foreground: 220 9% 46%;
+  --color-accent: 259 90% 61%;
+  --color-accent-foreground: 0 0% 100%;
+  --color-popover: 0 0% 100%;
+  --color-popover-foreground: 220 9% 3%;
+  --color-card: 0 0% 100%;
+  --color-card-foreground: 220 9% 3%;
+  --color-success: 142 71% 45%;
+  --color-success-foreground: 0 0% 100%;
+  --color-warning: 38 92% 50%;
+  --color-warning-foreground: 220 9% 3%;
+  --color-info: 217 91% 60%;
+  --color-info-foreground: 0 0% 100%;
+
+  --radius: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-border: 220 13% 13%;
+    --color-input: 220 13% 13%;
+    --color-ring: 217 91% 60%;
+    --color-background: 220 9% 3%;
+    --color-foreground: 0 0% 100%;
+    --color-primary: 217 91% 60%;
+    --color-primary-foreground: 220 9% 3%;
+    --color-secondary: 217 33% 17%;
+    --color-secondary-foreground: 0 0% 100%;
+    --color-destructive: 0 84% 60%;
+    --color-destructive-foreground: 0 0% 100%;
+    --color-muted: 220 13% 23%;
+    --color-muted-foreground: 220 9% 63%;
+    --color-accent: 259 90% 61%;
+    --color-accent-foreground: 220 9% 3%;
+    --color-popover: 220 9% 6%;
+    --color-popover-foreground: 0 0% 100%;
+    --color-card: 220 9% 6%;
+    --color-card-foreground: 0 0% 100%;
+    --color-success: 142 71% 45%;
+    --color-success-foreground: 0 0% 100%;
+    --color-warning: 38 92% 50%;
+    --color-warning-foreground: 220 9% 3%;
+    --color-info: 217 91% 60%;
+    --color-info-foreground: 220 9% 3%;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground;
+  font-feature-settings: "rounding" 1;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  button {
+    @apply transition-colors duration-200;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  .blur-glass {
+    @apply backdrop-blur-md bg-white/10 dark:bg-black/20;
+  }
+
+  .glass-border {
+    @apply border border-white/20 dark:border-white/10;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent;
+  }
+
+  .smooth-shadow {
+    @apply shadow-lg transition-shadow duration-300;
+  }
+
+  .interactive-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg;
+  }
+}

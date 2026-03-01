@@ -1,0 +1,53 @@
+{
+  "name": "@losev-inci/frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings 0",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "next": "^16.0.0",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-tabs": "^1.1.1",
+    "@radix-ui/react-popover": "^1.1.2",
+    "@radix-ui/react-slot": "^2.1.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss": "^4.0.0",
+    "lucide-react": "^0.404.0",
+    "recharts": "^2.12.0",
+    "react-hook-form": "^7.52.0",
+    "zod": "^3.23.0",
+    "@hookform/resolvers": "^3.3.4",
+    "@tanstack/react-query": "^5.45.0",
+    "axios": "^1.7.0",
+    "js-cookie": "^3.0.0",
+    "next-themes": "^0.2.1",
+    "date-fns": "^3.6.0",
+    "framer-motion": "^10.16.0",
+    "react-hot-toast": "^2.4.1",
+    "next-safe-action": "^7.4.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/js-cookie": "^3.0.6",
+    "typescript": "^5.4.0",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^16.0.0",
+    "prettier": "^3.3.0"
+  }
+}
